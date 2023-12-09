@@ -1,7 +1,7 @@
 from tkinter import *
 from tkinter import filedialog, messagebox, colorchooser
 from PIL import Image, ImageTk, ImageGrab
-from lng import *
+from files.lng import *
 
 brush_size = 8
 canvas_width = 900
@@ -19,17 +19,22 @@ last_y2 = []
 last_fill = []
 last_outline = []
 lang = ""
+bg_color = ""
 
-text_11 = f"Ширина холста: {canvas_width}"
-text_12 = f"Длина холста: {canvas_height}"
-text_13 = f"Размер: {brush_size}"
-text_14 = f"Цвет: {name_of_color}"
+with open("files/background.txt", "r") as file:
+    bg_color = file.read()
+    file.close()
+
+win = Tk()
+win.title("IrisPaint")
+win.configure(bg=bg_color)
+win.option_add("*tearOff", FALSE)
 
 def ru():
     global text_0, text_1, text_2, text_3, text_4, text_5, text_6, text_7, text_8, text_9
-    global text_10, text_11, text_12, text_13, text_14, text_15, text_16, text_17, text_18, text_19
-    global text_20, text_21, text_22, text_23, text_24, text_25, text_26, text_27, text_28, text_29
-    global text_30, text_31, text_32, text_33, text_34, text_35, text_36
+    global text_10, text_15, text_16, text_17, text_18, text_19, text_20, text_21, text_22
+    global text_23, text_24, text_25, text_26, text_27, text_28, text_29, text_30, text_31
+    global text_32, text_33, text_34, text_35, text_36, text_37, text_38, text_39, text_40, text_41
     text_0 = "чёрный"
     text_1 = "красный"
     text_2 = "оранжевый"
@@ -63,12 +68,17 @@ def ru():
     text_34 = "Заполнить"
     text_35 = "Требуется перезапуск"
     text_36 = "Закройте программу и запустите её снова, чтобы язык изменился"
+    text_37 = "Цвет заднего фона"
+    text_38 = "Серый"
+    text_39 = "Голубой"
+    text_40 = "Светло-зелёный"
+    text_41 = "Песчаный"
 
 def en():
     global text_0, text_1, text_2, text_3, text_4, text_5, text_6, text_7, text_8, text_9
-    global text_10, text_11, text_12, text_13, text_14, text_15, text_16, text_17, text_18, text_19
-    global text_20, text_21, text_22, text_23, text_24, text_25, text_26, text_27, text_28, text_29
-    global text_30, text_31, text_32, text_33, text_34, text_35, text_36
+    global text_10, text_15, text_16, text_17, text_18, text_19, text_20, text_21, text_22
+    global text_23, text_24, text_25, text_26, text_27, text_28, text_29, text_30, text_31
+    global text_32, text_33, text_34, text_35, text_36, text_37, text_38, text_39, text_40, text_41
     text_0 = "black"
     text_1 = "red"
     text_2 = "orange"
@@ -102,26 +112,46 @@ def en():
     text_34 = "Fill"
     text_35 = "Need restart"
     text_36 = "Close program and open again to change language"
+    text_37 = "Background color"
+    text_38 = "Grey"
+    text_39 = "Light blue"
+    text_40 = "Light green"
+    text_41 = "Sandy"
+
+
+#лейблы   labels
+bs_label = Label(win, text="", font="Arial 10 bold", bg=bg_color)
+bs_label.place(x=1016, y=10)
+
+color_label = Label(win, text="", font="Arial 10 bold", bg=bg_color)
+color_label.place(x=1196, y=10)
+
+ins_label = Label(win, text=text_15, font="Arial 10 bold", bg=bg_color)
+ins_label.place(x=1016, y=185)
+
+wc_label = Label(win, text="", font="Arial 10 bold", bg=bg_color)
+wc_label.place(x=1016, y=440)
+
+hc_label = Label(win, text="", font="Arial 10 bold", bg=bg_color)
+hc_label.place(x=1016, y=515)
 
 def change_language_ru():
-    global text_11, text_12, text_13, text_14
     ru()
-    text_11 = f"Ширина холста: {canvas_width}"
-    text_12 = f"Длина холста: {canvas_height}"
-    text_13 = f"Размер: {brush_size}"
-    text_14 = f"Цвет: {name_of_color}"
-    with open("lang.txt", "w") as file:
+    wc_label["text"] = f"Ширина холста: {canvas_width}"
+    hc_label["text"] = f"Длина холста: {canvas_height}"
+    bs_label["text"] = f"Размер: {brush_size}"
+    color_label["text"] = f"Цвет: {name_of_color}"
+    with open("files/lang.txt", "w") as file:
         file.write("ru")
         file.close()
 
 def change_language_en():
-    global text_11, text_12, text_13, text_14
     en()
-    text_11 = f"Canvas width: {canvas_width}"
-    text_12 = f"Canvas height: {canvas_height}"
-    text_13 = f"Size: {brush_size}"
-    text_14 = f"Color: {name_of_color}"
-    with open("lang.txt", "w") as file:
+    wc_label["text"] = f"Canvas width: {canvas_width}"
+    hc_label["text"] = f"Canvas height: {canvas_height}"
+    bs_label["text"] = f"Size: {brush_size}"
+    color_label["text"] = f"Color: {name_of_color}"
+    with open("files/lang.txt", "w") as file:
         file.write("en")
         file.close()
 
@@ -137,18 +167,21 @@ def chng_en():
         change_language_en()
         messagebox.showinfo(title=text_35, message=text_36)
 
-win = Tk()
-win.title("IrisPaint")
-win.configure(bg="#BFBFBF")
-win.option_add("*tearOff", FALSE)
-
-with open("lang.txt", "r") as file:
+with open("files/lang.txt", "r") as file:
     lang = file.read()
     file.close()
 
 match lang:
-    case "ru": change_language_ru()
-    case "en": change_language_en()
+    case "ru":
+        change_language_ru()
+        name_of_color = text_0
+        color_label["text"] = f"Цвет: {name_of_color}"
+        ins_label["text"] = "Инструмент: Кисть"
+    case "en":
+        change_language_en()
+        name_of_color = text_0
+        color_label["text"] = f"Color: {name_of_color}"
+        ins_label["text"] = "Instrument: Brush"
     case _:
         messagebox.showerror(title="Language error", message="Language not found")
         quit()
@@ -172,7 +205,8 @@ def increase_canvas_width():
     global canvas_width
     canvas_width += 25
     canvas.configure(width=canvas_width)
-    wc_label["text"] = text_11
+    if lang == "en": wc_label["text"] = f"Canvas width: {canvas_width}"
+    elif lang == "ru": wc_label["text"] = f"Ширина холста: {canvas_width}"
     win.update()
     if canvas_width == 950: in_wc_btn["state"] = "disabled"
     elif canvas_width > 300: dec_wc_btn["state"] = "normal"
@@ -181,7 +215,8 @@ def decrease_canvas_width():
     global canvas_width
     canvas_width -= 25
     canvas.configure(width=canvas_width)
-    wc_label["text"] = text_11
+    if lang == "en": wc_label["text"] = f"Canvas width: {canvas_width}"
+    elif lang == "ru": wc_label["text"] = f"Ширина холста: {canvas_width}"
     win.update()
     if canvas_width == 300: dec_wc_btn["state"] = "disabled"
     elif canvas_width < 950: in_wc_btn["state"] = "normal"
@@ -190,7 +225,8 @@ def increase_canvas_height():
     global canvas_height
     canvas_height += 25
     canvas.configure(height=canvas_height)
-    hc_label["text"] = text_12
+    if lang == "en": hc_label["text"] = f"Canvas height: {canvas_height}"
+    elif lang == "ru": hc_label["text"] = f"Длина холста: {canvas_height}"
     win.update()
     if canvas_height == 650: in_hc_btn["state"] = "disabled"
     elif canvas_height > 300: dec_hc_btn["state"] = "normal"
@@ -199,7 +235,8 @@ def decrease_canvas_height():
     global canvas_height
     canvas_height -= 25
     canvas.configure(height=canvas_height)
-    hc_label["text"] = text_12
+    if lang == "en": hc_label["text"] = f"Canvas height: {canvas_height}"
+    elif lang == "ru": hc_label["text"] = f"Длина холста: {canvas_height}"
     win.update()
     if canvas_height == 300: dec_hc_btn["state"] = "disabled"
     elif canvas_height < 650: in_hc_btn["state"] = "normal"
@@ -207,14 +244,16 @@ def decrease_canvas_height():
 def increase_brush_size():
     global brush_size
     brush_size += 1
-    bs_label["text"] = text_13
+    if lang == "en": bs_label["text"] = f"Size: {brush_size}"
+    elif lang == "ru": bs_label["text"] = f"Размер: {brush_size}"
     if brush_size == 25: in_bs_btn["state"] = "disable"
     elif brush_size > 1: dec_bs_btn["state"] = "normal"
 
 def decrease_brush_size():
     global brush_size
     brush_size -= 1
-    bs_label["text"] = text_13
+    if lang == "en": bs_label["text"] = f"Size: {brush_size}"
+    elif lang == "ru": bs_label["text"] = f"Размер: {brush_size}"
     if brush_size == 1: dec_bs_btn["state"] = "disable"
     elif brush_size < 25: in_bs_btn["state"] = "normal"
 
@@ -222,7 +261,8 @@ def change_color(new_color, new_name_of_color):
     global color, name_of_color
     color = new_color
     name_of_color = new_name_of_color
-    color_label["text"] = text_14
+    if lang == "en": color_label["text"] = f"Color: {name_of_color}"
+    elif lang == "ru": color_label["text"] = f"Цвет: {name_of_color}"
     ins_label["text"] = text_15
 
 def create_color_button(btn_clr, name_clr):
@@ -285,6 +325,20 @@ def redo():
     last_fill.pop(-1)
     last_outline.pop(-1)
 
+def change_bg(bg_clr):
+    global bg_color
+    bg_color = bg_clr
+    win.configure(bg=bg_clr)
+    bs_label["bg"] = bg_clr
+    color_label["bg"] = bg_clr
+    ins_label["bg"] = bg_clr
+    wc_label["bg"] = bg_clr
+    hc_label["bg"] = bg_clr
+    win.update()
+    with open("files/background.txt", "w") as file:
+        file.write(bg_clr)
+        file.close
+
 
 #меню
 file_menu = Menu()
@@ -300,8 +354,15 @@ language_menu = Menu()
 language_menu.add_command(label="English", command=chng_en)
 language_menu.add_command(label="Русский", command=chng_ru)
 
+bg_menu = Menu()
+bg_menu.add_command(label=text_38, command=lambda: change_bg("#BFBFBF"))
+bg_menu.add_command(label=text_39, command=lambda: change_bg("#91E6FF"))
+bg_menu.add_command(label=text_40, command=lambda: change_bg("#67E559"))
+bg_menu.add_command(label=text_41, command=lambda: change_bg("#FDFFA1"))
+
 settings_menu = Menu()
 settings_menu.add_cascade(label=text_30, menu=language_menu)
+settings_menu.add_cascade(label=text_37, menu=bg_menu)
 
 main_menu = Menu()
 main_menu.add_cascade(label=text_27, menu=file_menu)
@@ -311,27 +372,10 @@ main_menu.add_cascade(label=text_29, menu=settings_menu)
 win.configure(menu=main_menu)
 
 
-#холст
+#холст   canvas
 canvas = Canvas(win, width=canvas_width, height=canvas_height, bg="white")
 canvas.bind("<B1-Motion>", paint)
 canvas.place(x=5,y=5)
-
-
-#лейблы
-bs_label = Label(win, text=text_13, font="Arial 10 bold", bg="#BFBFBF")
-bs_label.place(x=1016, y=10)
-
-color_label = Label(win, text=text_14, font="Arial 10 bold", bg="#BFBFBF")
-color_label.place(x=1196, y=10)
-
-ins_label = Label(win, text=text_15, font="Arial 10 bold", bg="#BFBFBF")
-ins_label.place(x=1016, y=185)
-
-wc_label = Label(win, text=text_11, font="Arial 10 bold", bg="#BFBFBF")
-wc_label.place(x=1016, y=440)
-
-hc_label = Label(win, text=text_12, font="Arial 10 bold", bg="#BFBFBF")
-hc_label.place(x=1016, y=515)
 
 
 #кнопки регулирования размера кисти
