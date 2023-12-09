@@ -1,4 +1,5 @@
-('C:\\Users\\Даня\\Desktop\\projects\\python\\IrisPaint\\build\\IrisPaint\\PYZ-00.pyz',
+('C:\\Users\\Даня\\Desktop\\projects\\python\\IrisPaint '
+ 'release\\build\\IrisPaint\\PYZ-00.pyz',
  [('PIL',
    'C:\\Users\\Даня\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\site-packages\\PIL\\__init__.py',
    'PYMODULE'),
@@ -496,6 +497,9 @@
    'PYMODULE'),
   ('ipaddress',
    'C:\\Users\\Даня\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\ipaddress.py',
+   'PYMODULE'),
+  ('lng',
+   'C:\\Users\\Даня\\Desktop\\projects\\python\\IrisPaint release\\lng.py',
    'PYMODULE'),
   ('logging',
    'C:\\Users\\Даня\\AppData\\Local\\Programs\\Python\\Python311\\Lib\\logging\\__init__.py',
