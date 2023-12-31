@@ -2,7 +2,7 @@
 
 
 a = Analysis(
-    ['IrisPaint.py'],
+    ['main.py'],
     pathex=[],
     binaries=[],
     datas=[],
@@ -34,4 +34,5 @@ exe = EXE(
     target_arch=None,
     codesign_identity=None,
     entitlements_file=None,
+    icon=['C:\\Users\\Даня\\Desktop\\IrisPaint release\\files\\irispaint_icon.ico'],
 )
